@@ -16,8 +16,7 @@ const ExampleContextDefaults: ExampleControlsValues = {
 }
 
 const MIN_FREQUENCY_MS = 50;
-
-const MAX_FREQUENCY_MS = 1000;
+const MAX_FREQUENCY_MS = 2000;
 
 const ExampleContext = createContext<ExampleControlsValues>(ExampleContextDefaults);
 
@@ -76,7 +75,7 @@ export const HighFrequencyRerenderExample = () => {
     <ExampleContextProvider>
       <InteractiveExample>
         <h1>Example: High-Frequency Prop Changes</h1>
-        <ControlsBox>
+        <ControlsBox onReRunEvent={() => {}}>
           <RerenderFequencyControl />
         </ControlsBox>
       </InteractiveExample>

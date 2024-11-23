@@ -1,9 +1,10 @@
 import React from "react"
-import { GRAY_BORDER, LIGHT_ORANGE_BG, SOFT_GRAY_BG } from "../colour-constants";
+import { GRAY_BORDER, LIGHT_ORANGE_BG, NEAR_BLACK, SOFT_GRAY_BG } from "../colour-constants";
 import styled from "styled-components";
 
 interface ControlsBoxProps {
   children: React.ReactNode;
+  onReRunEvent: () => void;
 }
 
 const RootBox = styled.div`
@@ -22,19 +23,31 @@ const StartAlign = styled.div`
   font-weight: 700;
 `;
 const PaddedControls = styled.div`
-  padding: 16px;
+  padding: 32px 16px 32px 16px;
 `
 
-const ControlsIcon = () => <StartAlign>🔧 Controls</StartAlign>
+const ReRunButton = styled.input`
+  background-color: ${NEAR_BLACK};
+  color: white;
+  align-self: start;
+  border-radius: 20px;
+  border: none;
+  padding: 8px;
+`
 
-export const ControlsBox = ({  children }: ControlsBoxProps) => {
+export const ControlsBox = ({  onReRunEvent, children }: ControlsBoxProps) => {
 
   return (
     <RootBox>
-      <ControlsIcon />
+      <StartAlign>
+        🔧 Controls
+      </StartAlign>
       <PaddedControls>
         {children}
       </PaddedControls>
+      <StartAlign>
+      <ReRunButton type="button" onClick={onReRunEvent} value="Re-run" />
+      </StartAlign>
     </RootBox>
   )
 }
