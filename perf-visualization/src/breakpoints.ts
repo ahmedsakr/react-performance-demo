@@ -1,1 +1,1 @@
-export const SMALL_SCREEN_BREAKPOINT = 700;
+export const SMALL_SCREEN_BREAKPOINT = '700px';

@@ -8,7 +8,7 @@ const InputBox = styled.div`
     flex-direction: column;
   }
 
-  @media only screen and (min-width: 600px) {
+  @media only screen and (min-width: ${SMALL_SCREEN_BREAKPOINT}) {
     flex-direction: row;
     column-gap: 16px;
   }
