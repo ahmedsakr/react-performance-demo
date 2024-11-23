@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react"
 import { ControlsBox } from "../components/controls-box"
 import { InteractiveExample } from "../components/example-box"
 import { ControlInput } from "../components/control-input";
+import { ExperimentBox } from "../components/experiment-box";
 
 
 interface ExampleControlsValues {
@@ -78,6 +79,9 @@ export const HighFrequencyRerenderExample = () => {
         <ControlsBox onReRunEvent={() => {}}>
           <RerenderFequencyControl />
         </ControlsBox>
+        <ExperimentBox>
+          hello
+        </ExperimentBox>
       </InteractiveExample>
     </ExampleContextProvider>
 

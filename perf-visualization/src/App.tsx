@@ -2,13 +2,17 @@ import React from 'react';
 import './App.css';
 import { HighFrequencyRerenderExample } from './examples/high-frequency-rerenders';
 import { GRAY_BORDER } from './colour-constants';
+import { ExperimentMetricsContextProvider } from './metrics/context';
 
 
 function App() {
   return (
-    <div className="App" style={styles.root}>
-      <HighFrequencyRerenderExample />
-    </div>
+    <ExperimentMetricsContextProvider>
+      <div className="App" style={styles.root}>
+        <HighFrequencyRerenderExample />
+      </div>
+    </ExperimentMetricsContextProvider>
+
   );
 }
 
