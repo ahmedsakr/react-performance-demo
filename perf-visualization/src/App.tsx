@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { HighFrequencyRerenderExample } from './examples/high-frequency-rerenders';
+import { GRAY_BORDER } from './colour-constants';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={styles.root}>
+      <HighFrequencyRerenderExample />
     </div>
   );
 }
 
+const styles = {
+  root: {
+    margin: '0px 16px 0px 16px',
+    minHeight: '100vh',
+    borderLeft: `solid 1px ${GRAY_BORDER}`,
+    borderRight: `solid 1px ${GRAY_BORDER}`,
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    rowGap: 8,
+  }
+}
 export default App;
