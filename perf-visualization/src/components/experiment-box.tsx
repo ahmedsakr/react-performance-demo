@@ -14,6 +14,7 @@ const RootBox = styled.div`
     border: dotted 2px ${GRAY_BORDER};
     border-radius: 20px;
     width: auto;
+    row-gap: 16px;
 `;
 
 
@@ -23,15 +24,9 @@ const StartAlign = styled.div`
 `;
 const PaddedExperiment = styled.div`
   padding: 32px 16px 32px 16px;
-`
-
-const ReRunButton = styled.input`
-  background-color: ${NEAR_BLACK};
-  color: white;
-  align-self: start;
-  border-radius: 20px;
-  border: none;
-  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
 `
 
 export const ExperimentBox = ({  children }: ExperimentBoxProps) => {
@@ -39,8 +34,10 @@ export const ExperimentBox = ({  children }: ExperimentBoxProps) => {
   return (
     <RootBox>
       <StartAlign>
-        🔧 Live Experiment
+        <text>🔧 Live Experiment</text>
       </StartAlign>
+      <text>Description: The table below is market metadata of a security.</text>
+      <text>All values are subject to change when a new market quote is available</text>
       <PaddedExperiment>
         {children}
       </PaddedExperiment>
