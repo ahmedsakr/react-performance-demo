@@ -3,8 +3,11 @@ import { useEffect } from "react";
 export const useExperimentClock = (
   frequency: number,
   updateExperimentState: () => void,
+  experimentStatus: "running" | "paused",
 ) => {
   useEffect(() => {
+    if (experimentStatus === "paused") return;
+
     const adjustedFrequency = Math.max(frequency, 5);
     const intervalId = setInterval(updateExperimentState, adjustedFrequency);
 
@@ -13,5 +16,5 @@ export const useExperimentClock = (
         clearInterval(intervalId);
       }
     };
-  }, [frequency, updateExperimentState]);
+  }, [experimentStatus, frequency, updateExperimentState]);
 };

@@ -27,6 +27,10 @@ const HighFrequencyRerenderContent = () => {
   const [marketData, setMarketData] = useState(
     generateMarketData(0, historicalDays, changingProps, undefined),
   );
+  const [experimentStatus, setExperimentStatus] = useState<
+    "running" | "paused"
+  >("running");
+
   const onExperimentClock = useCallback(() => {
     setMarketData((existingMarketData) =>
       generateMarketData(
@@ -38,7 +42,7 @@ const HighFrequencyRerenderContent = () => {
       ),
     );
   }, [historicalDays, changingProps, setMarketData]);
-  useExperimentClock(frequency, onExperimentClock);
+  useExperimentClock(frequency, onExperimentClock, experimentStatus);
 
   const leadingTrial =
     experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent <
@@ -51,22 +55,39 @@ const HighFrequencyRerenderContent = () => {
           experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent,
         )
           .minus(
-            experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent 
+            experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent,
           )
-          .dividedBy(experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent || 1)
+          .dividedBy(
+            experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent ||
+              1,
+          )
           .times(100)
       : new Decimal(
           experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent,
         )
           .minus(
-            experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent
+            experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent,
           )
-          .dividedBy(experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent || 1)
+          .dividedBy(
+            experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent ||
+              1,
+          )
           .times(100);
+
+  const resumeExperiment = useCallback(
+    () => setExperimentStatus("running"),
+    [],
+  );
+  const pauseExperiment = useCallback(() => setExperimentStatus("paused"), []);
+  const onReRunExperiment = useCallback(() => {
+    restartExperiment();
+    resumeExperiment();
+  }, [restartExperiment, resumeExperiment]);
+
   return (
     <InteractiveExample>
-      <h1>Example: High-Frequency Prop Changes</h1>
-      <ControlsBox onReRunEvent={restartExperiment}>
+      <h1>Interactive performance experiment</h1>
+      <ControlsBox>
         <RerenderFequencyControl />
         <HistoricalPerformanceDaysControl />
         <ChangingPropsControl />
@@ -76,6 +97,10 @@ const HighFrequencyRerenderContent = () => {
           new Date().getTime() -
           experimentMetrics.highFrequencyExperiment.trialStartTime
         }
+        onReRunEvent={onReRunExperiment}
+        resumeExperiment={resumeExperiment}
+        pauseExperiment={pauseExperiment}
+        experimentStatus={experimentStatus}
       >
         <TrialBox
           trialType="no-memo"

@@ -1,11 +1,21 @@
 import React from "react";
-import { GRAY_BORDER, LIVE_RED, SOFT_GRAY_BG } from "../colour-constants";
+import {
+  GRAY_BORDER,
+  LIGHT_GREEN,
+  LIVE_RED,
+  NEAR_BLACK,
+  SOFT_GRAY_BG,
+} from "../colour-constants";
 import styled from "styled-components";
 import Decimal from "decimal.js";
 
 interface ExperimentBoxProps {
   children: React.ReactNode;
   time: number;
+  experimentStatus: "running" | "paused";
+  onReRunEvent: () => void;
+  pauseExperiment: () => void;
+  resumeExperiment: () => void;
 }
 
 const RootBox = styled.div`
@@ -34,7 +44,34 @@ const PaddedExperiment = styled.div`
   row-gap: 32px;
 `;
 
-export const ExperimentBox = ({ children, time }: ExperimentBoxProps) => {
+const ActionButton = styled.input`
+  color: white;
+  align-self: start;
+  border-radius: 20px;
+  border: none;
+  padding: 8px;
+`;
+
+const ReRunButton = styled(ActionButton)`
+  background-color: ${NEAR_BLACK};
+`;
+
+const ExperimentControlButton = styled(ActionButton)<{
+  currentStatus: "running" | "paused";
+}>`
+  background-color: ${({ currentStatus }) =>
+    currentStatus === "running" ? LIVE_RED : LIGHT_GREEN};
+  margin-left: 4px;
+`;
+
+export const ExperimentBox = ({
+  children,
+  time,
+  onReRunEvent,
+  experimentStatus,
+  pauseExperiment,
+  resumeExperiment,
+}: ExperimentBoxProps) => {
   const withTimeFormatting = (value: number) =>
     value < 10 ? `0${value}` : value.toString();
   const timeMinutes = withTimeFormatting(
@@ -44,6 +81,8 @@ export const ExperimentBox = ({ children, time }: ExperimentBoxProps) => {
     new Decimal(time).div(1000).mod(60).floor().toNumber(),
   );
 
+  const isRunning = experimentStatus === "running";
+
   return (
     <RootBox>
       <StartAlign>
@@ -51,6 +90,15 @@ export const ExperimentBox = ({ children, time }: ExperimentBoxProps) => {
         <RunningTime>
           {timeMinutes}:{timeSeconds}
         </RunningTime>
+      </StartAlign>
+      <StartAlign>
+        <ReRunButton type="button" onClick={onReRunEvent} value="Re-run" />
+        <ExperimentControlButton
+          currentStatus={experimentStatus}
+          type="button"
+          onClick={isRunning ? pauseExperiment : resumeExperiment}
+          value={isRunning ? "Pause" : "Resume"}
+        />
       </StartAlign>
       <text>
         Description: The table below is market metadata of a security.
