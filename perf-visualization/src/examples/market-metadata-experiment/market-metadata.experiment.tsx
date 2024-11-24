@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import Intl from 'currency-formatter';
 import { MarketData } from "./data-generator";
-import React, { useMemo } from "react";
+import React, { useContext, useEffect, useMemo, useRef } from "react";
+import { ExperimentMetricsContext } from "../../metrics/context";
 
 const MetadataRowContainer = styled.div`
   display: flex;
@@ -22,13 +23,16 @@ const MetadataRow = ({ rowName, value }: {  rowName: string, value: string }) =>
 const formatDollarValue = (value: number) => Intl.format(value, { code: 'CAD' })
 
 
-export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData }) => {
+export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData}) => {
 
+  const timeSpent = useRef(0);
+  const lastTimeCapture = useRef(new Date().getTime());
+
+  const { highFrequencyExperiment } = useContext(ExperimentMetricsContext);
   const formattedBid = formatDollarValue(marketData.bid);
   const formattedAsk = formatDollarValue(marketData.ask);
   const formattedLastSale = formatDollarValue(marketData.lastSale);
   const formattedMarketCap = formatDollarValue(marketData.marketCap);
-
 
   return (
     <>
@@ -65,13 +69,12 @@ export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData })
 
 }
 
-export const MarketMetdataWithMemos = React.memo(({ marketData }: { marketData: MarketData }) => {
 
+export const MarketMetdataWithMemos = React.memo(({ marketData }: { marketData: MarketData }) => {
   const formattedBid = useMemo(() => formatDollarValue(marketData.bid), [marketData.bid]);
   const formattedAsk = useMemo(() => formatDollarValue(marketData.ask), [marketData.ask]);
   const formattedLastSale = useMemo(() => formatDollarValue(marketData.lastSale), [marketData.lastSale]);
   const formattedMarketCap =  useMemo(() => formatDollarValue(marketData.marketCap), [marketData.marketCap]);
-
 
   return (
     <>

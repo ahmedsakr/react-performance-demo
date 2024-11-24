@@ -1,13 +1,13 @@
-import { createContext, useCallback, useContext, useState } from "react"
+import { createContext, Profiler, useCallback, useContext, useState } from "react"
 import { ControlsBox } from "../../components/controls-box"
 import { InteractiveExample } from "../../components/example-box"
 import { ControlInput } from "../../components/control-input";
 import { ExperimentBox } from "../../components/experiment-box";
 import { TrialBox } from "../../components/trial-box";
-import { ExperimentMetricsContext } from "../../metrics/context";
 import { useExperimentClock } from "../experiment-clock";
-import { MarketMetdataNoMemos } from "./market-metadata.experiment";
+import { MarketMetdataNoMemos, MarketMetdataWithMemos } from "./market-metadata.experiment";
 import { generateMarketData } from "./data-generator";
+import { experimentMetrics, MARKET_DATA_EXPERIMENT_NO_MEMO, MARKET_DATA_EXPERIMENT_WITH_MEMO, updateExperimentMetric } from "../../metrics/tracking";
 
 
 interface ExampleControlsValues {
@@ -74,38 +74,45 @@ const RerenderFequencyControl = () => {
 
 }
 
-export const HighFrequencyRerenderExample = () => {
+const HighFrequencyRerenderContent = () => {
 
-  const { highFrequencyExperiment } = useContext(ExperimentMetricsContext);
   const { frequency } = useContext(ExampleContext);
   const [marketData, setMarketData ] = useState(generateMarketData(0));
-  const [experimentStartTime, setExperimentStartTime ] = useState(new Date().getTime())
-  useExperimentClock(frequency, () => setMarketData(generateMarketData(new Date().getTime() -  experimentStartTime)));
+  useExperimentClock(frequency, () => setMarketData(generateMarketData(new Date().getTime() -  experimentMetrics.highFrequencyExperiment.trialStartTime)));
 
   const restartExperiment = useCallback(() => {
-    highFrequencyExperiment.setNoMemosTrialTimeSpent(0);
-    highFrequencyExperiment.setWithMemosTrialTimeSpent(0);
-    setExperimentStartTime(new Date().getTime())
-  }, [highFrequencyExperiment]);
+   experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent = 0;
+   experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent = 0;
+   experimentMetrics.highFrequencyExperiment.trialStartTime = new Date().getTime();
+  }, []);
 
 
   return (
-    <ExampleContextProvider>
       <InteractiveExample>
         <h1>Example: High-Frequency Prop Changes</h1>
         <ControlsBox onReRunEvent={restartExperiment}>
           <RerenderFequencyControl />
         </ControlsBox>
         <ExperimentBox>
-          <TrialBox trialType="no-memo" timeSpent={highFrequencyExperiment.noMemosTrialTimeSpent}>
-            <MarketMetdataNoMemos marketData={marketData} />
+          <TrialBox trialType="no-memo" timeSpent={experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent}>
+            <Profiler id={MARKET_DATA_EXPERIMENT_NO_MEMO} onRender={updateExperimentMetric}>
+              <MarketMetdataNoMemos marketData={marketData} />
+            </Profiler>
           </TrialBox>
-          <TrialBox trialType="with-memo" timeSpent={highFrequencyExperiment.withMemosTrialTimeSpent}>
-            <MarketMetdataNoMemos marketData={marketData} />
+          <TrialBox trialType="with-memo" timeSpent={experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent}>
+            <Profiler id={MARKET_DATA_EXPERIMENT_WITH_MEMO} onRender={updateExperimentMetric}>
+              <MarketMetdataWithMemos marketData={marketData} />
+            </Profiler>
           </TrialBox>
         </ExperimentBox>
       </InteractiveExample>
-    </ExampleContextProvider>
 
   )
 }
+
+
+export const HighFrequencyRerenderExample = () => (
+  <ExampleContextProvider>
+    <HighFrequencyRerenderContent />
+  </ExampleContextProvider>
+)
