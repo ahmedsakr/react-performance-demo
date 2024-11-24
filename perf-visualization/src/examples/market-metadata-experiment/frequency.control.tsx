@@ -6,23 +6,22 @@ const MIN_FREQUENCY_MS = 5;
 const MAX_FREQUENCY_MS = 2000;
 
 export const RerenderFequencyControl = () => {
-
-  const { frequency, setFrequency, restartExperiment } = useContext(ExampleContext);
+  const { frequency, setFrequency, restartExperiment } =
+    useContext(ExampleContext);
 
   return (
     <ControlInput
       inputName={`Frequency [${MIN_FREQUENCY_MS}ms, ${MAX_FREQUENCY_MS}ms]`}
       inputValue={frequency.toString()}
       onInputChange={(value) => {
-        if (value === '') {
+        if (value === "") {
           setFrequency(0);
           restartExperiment();
           return;
         }
         if (Number.isNaN(value)) return;
 
-
-        setFrequency(parseInt(value))
+        setFrequency(parseInt(value));
         restartExperiment();
       }}
       onLoseFocus={() => {
@@ -38,6 +37,5 @@ export const RerenderFequencyControl = () => {
         }
       }}
     />
-  )
-
-}
+  );
+};

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react";
 
-export const useExperimentClock = (frequency: number, updateExperimentState: () => void) => {
-
+export const useExperimentClock = (
+  frequency: number,
+  updateExperimentState: () => void,
+) => {
   useEffect(() => {
-
     const adjustedFrequency = Math.max(frequency, 50);
     const intervalId = setInterval(updateExperimentState, adjustedFrequency);
 
@@ -11,6 +12,6 @@ export const useExperimentClock = (frequency: number, updateExperimentState: () 
       if (intervalId) {
         clearInterval(intervalId);
       }
-    }
-  }, [frequency, updateExperimentState])
-}
+    };
+  }, [frequency, updateExperimentState]);
+};

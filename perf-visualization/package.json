@@ -48,6 +48,8 @@
   "devDependencies": {
     "@types/currency-formatter": "^1.5.4",
     "@types/d3-scale": "^4.0.8",
-    "@types/d3-shape": "^3.1.6"
+    "@types/d3-shape": "^3.1.6",
+    "eslint": "^8.57.1",
+    "prettier": "^3.3.3"
   }
 }

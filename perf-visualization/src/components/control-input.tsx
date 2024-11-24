@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 import { SMALL_SCREEN_BREAKPOINT } from "../breakpoints";
 
 const InputBox = styled.div`
@@ -18,7 +18,7 @@ const InputBox = styled.div`
 const InputText = styled.text`
   font-size: 14px;
   font-weight: bold;
-`
+`;
 
 interface ControlInputProps {
   inputName: string;
@@ -27,13 +27,23 @@ interface ControlInputProps {
   onLoseFocus: () => void;
 }
 
-export const ControlInput = ({ inputName, inputValue, onInputChange, onLoseFocus }: ControlInputProps) => {
-
-
+export const ControlInput = ({
+  inputName,
+  inputValue,
+  onInputChange,
+  onLoseFocus,
+}: ControlInputProps) => {
   return (
     <InputBox>
       <InputText>{inputName}</InputText>
-      <input type="text" onChange={(event) => onInputChange((event.target as HTMLInputElement).value)} value={inputValue} onBlur={onLoseFocus}/>
+      <input
+        type="text"
+        onChange={(event) =>
+          onInputChange((event.target as HTMLInputElement).value)
+        }
+        value={inputValue}
+        onBlur={onLoseFocus}
+      />
     </InputBox>
-  )
-}
+  );
+};

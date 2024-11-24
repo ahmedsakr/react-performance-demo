@@ -10,7 +10,6 @@ interface AllExperimentMetrics {
   highFrequencyExperiment: ExperimentMetrics;
 }
 
-
 export const experimentMetrics: AllExperimentMetrics = {
   highFrequencyExperiment: {
     trialStartTime: new Date().getTime(),
@@ -18,25 +17,28 @@ export const experimentMetrics: AllExperimentMetrics = {
     noMemosTrialRenderCounter: 0,
     withMemosTrialTimeSpent: 0,
     withMemosTrialRenderCounter: 0,
-  }
-}
+  },
+};
 
-export const MARKET_DATA_EXPERIMENT_NO_MEMO = 'market-data-experiment-no-memo';
-export const MARKET_DATA_EXPERIMENT_WITH_MEMO = 'market-data-experiment-with-memo';
+export const MARKET_DATA_EXPERIMENT_NO_MEMO = "market-data-experiment-no-memo";
+export const MARKET_DATA_EXPERIMENT_WITH_MEMO =
+  "market-data-experiment-with-memo";
 
 export const updateExperimentMetric = (
   id: string,
   phase: string,
   actualTime: number,
-  baseTime: number
+  baseTime: number,
 ) => {
-  if (phase === 'mount') return;
+  if (phase === "mount") return;
 
   if (id === MARKET_DATA_EXPERIMENT_NO_MEMO) {
-    experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent += actualTime;
+    experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent +=
+      actualTime;
     experimentMetrics.highFrequencyExperiment.noMemosTrialRenderCounter += 1;
   } else if (id === MARKET_DATA_EXPERIMENT_WITH_MEMO) {
-    experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent += actualTime;
+    experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent +=
+      actualTime;
     experimentMetrics.highFrequencyExperiment.withMemosTrialRenderCounter += 1;
   }
-}
+};

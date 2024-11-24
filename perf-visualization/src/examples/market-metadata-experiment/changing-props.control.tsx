@@ -1,65 +1,59 @@
 import { useContext } from "react";
-import { ControlInput } from "../../components/control-input";
 import { ExampleContext, ExampleControlsValues } from "./example.context";
 import { ControlCheckboxes } from "../../components/control-checkbox";
 
-const MIN_HISTORICAL_DAYS = 1;
-const MAX_HISTORICAL_DAYS = 365;
-
 const CHECKBOX_OPTIONS = [
   {
-    id: 'bid',
-    text: 'Bid',
+    id: "bid",
+    text: "Bid",
   },
   {
-    id: 'ask',
-    text: 'Ask',
+    id: "ask",
+    text: "Ask",
   },
   {
-    id: 'bidSize',
-    text: 'Bid size',
+    id: "bidSize",
+    text: "Bid size",
   },
   {
-    id: 'askSize',
-    text: 'Ask size',
+    id: "askSize",
+    text: "Ask size",
   },
   {
-    id: 'lastSale',
-    text: 'Last sale',
+    id: "lastSale",
+    text: "Last sale",
   },
   {
-    id: 'marketCap',
-    text: 'Market cap',
+    id: "marketCap",
+    text: "Market cap",
   },
   {
-    id: 'volume',
-    text: 'Volume'
+    id: "volume",
+    text: "Volume",
   },
   {
-    id: 'historicalPerformance',
-    text: 'Historical performance'
-  }
-] as const
+    id: "historicalPerformance",
+    text: "Historical performance",
+  },
+] as const;
 
 export const ChangingPropsControl = () => {
-
-  const { changingProps, updateChangingProps,   restartExperiment } = useContext(ExampleContext);
-
+  const { changingProps, updateChangingProps, restartExperiment } =
+    useContext(ExampleContext);
 
   const propsWithSelected = CHECKBOX_OPTIONS.map((option) => ({
     ...option,
     selected: changingProps[option.id],
-  }))
+  }));
 
   return (
     <ControlCheckboxes
       inputName={`Props configured to change`}
       options={propsWithSelected}
-      onSelect={(inputId: keyof ExampleControlsValues['changingProps']) => {
+      onSelect={(inputId: keyof ExampleControlsValues["changingProps"]) => {
         updateChangingProps(inputId, !changingProps[inputId]);
         restartExperiment();
       }}
     />
-  )
-
-}
+  );
+};
