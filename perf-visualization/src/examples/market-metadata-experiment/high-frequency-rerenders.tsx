@@ -38,7 +38,7 @@ const HighFrequencyRerenderContent = () => {
           <HistoricalPerformanceDaysControl />
           <ChangingPropsControl />
         </ControlsBox>
-        <ExperimentBox>
+        <ExperimentBox time={new Date().getTime() - experimentMetrics.highFrequencyExperiment.trialStartTime}>
           <TrialBox
             trialType="no-memo"
             currentlyLeading={leadingTrial === 'no-memos'}
