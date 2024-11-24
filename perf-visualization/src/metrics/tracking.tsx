@@ -28,7 +28,10 @@ export const updateExperimentMetric = (
   id: string,
   phase: string,
   actualTime: number,
+  baseTime: number
 ) => {
+  if (phase === 'mount') return;
+
   if (id === MARKET_DATA_EXPERIMENT_NO_MEMO) {
     experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent += actualTime;
     experimentMetrics.highFrequencyExperiment.noMemosTrialRenderCounter += 1;

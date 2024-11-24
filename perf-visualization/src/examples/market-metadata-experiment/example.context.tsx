@@ -6,6 +6,16 @@ interface ExampleControlsValues {
   setFrequency: (newFrequencyMs: number) => void,
   historicalDays: number;
   setHistoricalDays: (amountOfDays: number) => void,
+  changingProps: {
+    bid: boolean,
+    ask: boolean,
+    bidSize: boolean,
+    askSize: boolean,
+    lastSale: boolean,
+    marketCap: boolean,
+    volume: boolean
+  },
+  updateChangingProps: (prop: string, newValue: boolean) => void,
   restartExperiment: () => void;
 }
 
@@ -15,6 +25,16 @@ const ExampleContextDefaults: ExampleControlsValues = {
   setFrequency: () => {},
   historicalDays: 30,
   setHistoricalDays: () => {},
+  changingProps: {
+    bid: true,
+    ask: true,
+    bidSize: true,
+    askSize: true,
+    lastSale: true,
+    marketCap: true,
+    volume: true,
+  },
+  updateChangingProps: () => {},
   restartExperiment: () => {},
 }
 
@@ -25,6 +45,9 @@ export const ExampleContextProvider = ({ children }: { children: React.ReactNode
 
   const [ frequency, setFrequency] = useState(ExampleContextDefaults.frequency)
   const [ historicalDays, setHistoricalDays] = useState(ExampleContextDefaults.historicalDays)
+
+  const [ changingProps, updateChangingProps] = useState(ExampleContextDefaults.changingProps)
+
   const restartExperiment = useCallback(() => {
     experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent = 0;
     experimentMetrics.highFrequencyExperiment.noMemosTrialRenderCounter = 0;
@@ -39,7 +62,11 @@ export const ExampleContextProvider = ({ children }: { children: React.ReactNode
       setFrequency,
       historicalDays,
       setHistoricalDays,
-      restartExperiment
+      restartExperiment,
+      changingProps,
+      updateChangingProps: (propId, newValue) => {
+        updateChangingProps({ ...changingProps, [propId]: newValue });
+      },
     }}>
       {children}
     </ExampleContext.Provider>
