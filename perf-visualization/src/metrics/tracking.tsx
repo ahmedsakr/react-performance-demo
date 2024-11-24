@@ -27,7 +27,7 @@ export const MARKET_DATA_EXPERIMENT_WITH_MEMO = 'market-data-experiment-with-mem
 export const updateExperimentMetric = (
   id: string,
   phase: string,
-  actualTime: number
+  actualTime: number,
 ) => {
   if (id === MARKET_DATA_EXPERIMENT_NO_MEMO) {
     experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent += actualTime;

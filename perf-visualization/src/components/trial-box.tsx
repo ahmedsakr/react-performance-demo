@@ -1,6 +1,7 @@
 import React from "react"
 import { GRAY_BORDER, NEAR_BLACK, SOFT_GRAY_BG } from "../colour-constants";
 import styled from "styled-components";
+import Decimal from "decimal.js";
 
 interface TrialBoxProps {
   trialType: 'no-memo' | 'with-memo';
@@ -43,7 +44,7 @@ export const TrialBox = ({  trialType, currentlyLeading, timeSpent, children, re
         <text>Trial: <Bolded>{trialType === 'no-memo' ? 'No Memos' : 'With Memos'}</Bolded></text>
         {currentlyLeading && <text>🥇Winning</text>}
       </TrialHeader>
-      <Bolded>Time spent: {timeSpent} ms, render count: {renderCount} </Bolded>
+      <Bolded>Time spent: {new Decimal(timeSpent).toDecimalPlaces(2).toNumber()} ms, render count: {renderCount} </Bolded>
       <PaddedTrial>
         {children}
       </PaddedTrial>

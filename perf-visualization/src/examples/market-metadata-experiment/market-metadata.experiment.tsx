@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Intl from 'currency-formatter';
 import { MarketData } from "./data-generator";
 import React, { useContext, useEffect, useMemo, useRef } from "react";
+import Decimal from "decimal.js";
 
 const MetadataRowContainer = styled.div`
   display: flex;
@@ -62,7 +63,7 @@ export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData}) 
       />
       <MetadataRow
         rowName={`Performance (${marketData.historicalPerformance.length} days)`}
-        value={`${totalPerformance}%`}
+        value={`${new Decimal(totalPerformance).toDecimalPlaces(2).toNumber()}%`}
       />
     </>
   )
@@ -76,7 +77,11 @@ export const MarketMetdataWithMemos = React.memo(({ marketData }: { marketData: 
   const formattedLastSale = useMemo(() => formatDollarValue(marketData.lastSale), [marketData.lastSale]);
   const formattedMarketCap =  useMemo(() => formatDollarValue(marketData.marketCap), [marketData.marketCap]);
   const totalPerformance = useMemo(
-    () => marketData.historicalPerformance.reduce((accum, curr) => accum + curr.performance, 0),
+    () => {
+      const total = marketData.historicalPerformance.reduce((accum, curr) => accum + curr.performance, 0);
+
+      return new Decimal(total).toDecimalPlaces(2).toNumber();
+    },
     [marketData.historicalPerformance]
   );
 
