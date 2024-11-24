@@ -23,10 +23,6 @@ const formatDollarValue = (value: number) => Intl.format(value, { code: 'CAD' })
 
 
 export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData}) => {
-
-  const timeSpent = useRef(0);
-  const lastTimeCapture = useRef(new Date().getTime());
-
   const formattedBid = formatDollarValue(marketData.bid);
   const formattedAsk = formatDollarValue(marketData.ask);
   const formattedLastSale = formatDollarValue(marketData.lastSale);

@@ -89,6 +89,9 @@ const HighFrequencyRerenderContent = () => {
   }, []);
 
 
+  const leadingTrial = experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent < experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent
+    ? 'no-memos'
+    : 'with-memos';
   return (
       <InteractiveExample>
         <h1>Example: High-Frequency Prop Changes</h1>
@@ -96,12 +99,21 @@ const HighFrequencyRerenderContent = () => {
           <RerenderFequencyControl />
         </ControlsBox>
         <ExperimentBox>
-          <TrialBox trialType="no-memo" timeSpent={experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent} renderCount={experimentMetrics.highFrequencyExperiment.noMemosTrialRenderCounter}>
+          <TrialBox
+            trialType="no-memo"
+            currentlyLeading={leadingTrial === 'no-memos'}
+            timeSpent={experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent}
+            renderCount={experimentMetrics.highFrequencyExperiment.noMemosTrialRenderCounter}>
             <Profiler id={MARKET_DATA_EXPERIMENT_NO_MEMO} onRender={updateExperimentMetric}>
               <MarketMetdataNoMemos marketData={marketData} />
             </Profiler>
           </TrialBox>
-          <TrialBox trialType="with-memo" timeSpent={experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent} renderCount={experimentMetrics.highFrequencyExperiment.withMemosTrialRenderCounter}>
+          <TrialBox
+            trialType="with-memo"
+            currentlyLeading={leadingTrial === 'with-memos'}
+            timeSpent={experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent}
+            renderCount={experimentMetrics.highFrequencyExperiment.withMemosTrialRenderCounter}
+          >
             <Profiler id={MARKET_DATA_EXPERIMENT_WITH_MEMO} onRender={updateExperimentMetric}>
               <MarketMetdataWithMemos marketData={marketData} />
             </Profiler>

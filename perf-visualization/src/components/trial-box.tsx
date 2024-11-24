@@ -6,6 +6,7 @@ interface TrialBoxProps {
   trialType: 'no-memo' | 'with-memo';
   timeSpent: number;
   renderCount: number;
+  currentlyLeading: boolean;
   children: React.ReactNode;
 }
 
@@ -16,8 +17,7 @@ const RootBox = styled.div`
     padding: 16px;
     border: dotted 2px ${GRAY_BORDER};
     border-radius: 20px;
-    width: auto;
-    row-gap: 16px;
+    row-gap: 8px;
 `;
 
 const PaddedTrial = styled.div`
@@ -29,11 +29,20 @@ const Bolded = styled.text`
   font-weight: 700;
 `
 
-export const TrialBox = ({  trialType, timeSpent, children, renderCount }: TrialBoxProps) => {
+const TrialHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+export const TrialBox = ({  trialType, currentlyLeading, timeSpent, children, renderCount }: TrialBoxProps) => {
 
   return (
     <RootBox>
-      <text>Trial: <Bolded>{trialType === 'no-memo' ? 'No Memos' : 'With Memos'}</Bolded></text>
+      <TrialHeader>
+        <text>Trial: <Bolded>{trialType === 'no-memo' ? 'No Memos' : 'With Memos'}</Bolded></text>
+        {currentlyLeading && <text>🥇Winning</text>}
+      </TrialHeader>
       <Bolded>Time spent: {timeSpent} ms, render count: {renderCount} </Bolded>
       <PaddedTrial>
         {children}
