@@ -82,7 +82,9 @@ const HighFrequencyRerenderContent = () => {
 
   const restartExperiment = useCallback(() => {
    experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent = 0;
+   experimentMetrics.highFrequencyExperiment.noMemosTrialRenderCounter = 0;
    experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent = 0;
+   experimentMetrics.highFrequencyExperiment.withMemosTrialRenderCounter = 0;
    experimentMetrics.highFrequencyExperiment.trialStartTime = new Date().getTime();
   }, []);
 
@@ -94,12 +96,12 @@ const HighFrequencyRerenderContent = () => {
           <RerenderFequencyControl />
         </ControlsBox>
         <ExperimentBox>
-          <TrialBox trialType="no-memo" timeSpent={experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent}>
+          <TrialBox trialType="no-memo" timeSpent={experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent} renderCount={experimentMetrics.highFrequencyExperiment.noMemosTrialRenderCounter}>
             <Profiler id={MARKET_DATA_EXPERIMENT_NO_MEMO} onRender={updateExperimentMetric}>
               <MarketMetdataNoMemos marketData={marketData} />
             </Profiler>
           </TrialBox>
-          <TrialBox trialType="with-memo" timeSpent={experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent}>
+          <TrialBox trialType="with-memo" timeSpent={experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent} renderCount={experimentMetrics.highFrequencyExperiment.withMemosTrialRenderCounter}>
             <Profiler id={MARKET_DATA_EXPERIMENT_WITH_MEMO} onRender={updateExperimentMetric}>
               <MarketMetdataWithMemos marketData={marketData} />
             </Profiler>

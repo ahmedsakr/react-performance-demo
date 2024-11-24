@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Intl from 'currency-formatter';
 import { MarketData } from "./data-generator";
 import React, { useContext, useEffect, useMemo, useRef } from "react";
-import { ExperimentMetricsContext } from "../../metrics/context";
 
 const MetadataRowContainer = styled.div`
   display: flex;
@@ -28,7 +27,6 @@ export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData}) 
   const timeSpent = useRef(0);
   const lastTimeCapture = useRef(new Date().getTime());
 
-  const { highFrequencyExperiment } = useContext(ExperimentMetricsContext);
   const formattedBid = formatDollarValue(marketData.bid);
   const formattedAsk = formatDollarValue(marketData.ask);
   const formattedLastSale = formatDollarValue(marketData.lastSale);
@@ -100,7 +98,7 @@ export const MarketMetdataWithMemos = React.memo(({ marketData }: { marketData: 
       />
       <MetadataRow
         rowName="Volume"
-        value={useMemo(() => marketData.volume.toString(), [])}
+        value={useMemo(() => marketData.volume.toString(), [marketData.volume])}
       />
       <MetadataRow
         rowName="Market Cap"

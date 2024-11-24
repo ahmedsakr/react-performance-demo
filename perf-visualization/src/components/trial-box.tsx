@@ -5,6 +5,7 @@ import styled from "styled-components";
 interface TrialBoxProps {
   trialType: 'no-memo' | 'with-memo';
   timeSpent: number;
+  renderCount: number;
   children: React.ReactNode;
 }
 
@@ -28,12 +29,12 @@ const Bolded = styled.text`
   font-weight: 700;
 `
 
-export const TrialBox = ({  trialType, timeSpent, children }: TrialBoxProps) => {
+export const TrialBox = ({  trialType, timeSpent, children, renderCount }: TrialBoxProps) => {
 
   return (
     <RootBox>
       <text>Trial: <Bolded>{trialType === 'no-memo' ? 'No Memos' : 'With Memos'}</Bolded></text>
-      <Bolded>Time spent: {timeSpent} </Bolded>
+      <Bolded>Time spent: {timeSpent} ms, render count: {renderCount} </Bolded>
       <PaddedTrial>
         {children}
       </PaddedTrial>

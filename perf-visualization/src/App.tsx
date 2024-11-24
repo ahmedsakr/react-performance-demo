@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import { HighFrequencyRerenderExample } from './examples/market-metadata-experiment/high-frequency-rerenders';
-import { ExperimentMetricsContextProvider } from './metrics/context';
 import styled from 'styled-components';
 import { SMALL_SCREEN_BREAKPOINT } from './breakpoints';
 
@@ -28,11 +27,9 @@ const AppRoot = styled.div`
 
 function App() {
   return (
-    <ExperimentMetricsContextProvider>
       <AppRoot>
         <HighFrequencyRerenderExample />
       </AppRoot>
-    </ExperimentMetricsContextProvider>
 
   );
 }
