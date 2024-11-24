@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { subDays } from 'date-fns'
+import { ExampleControlsValues } from "./example.context";
 
 export interface MarketData {
   bid: number;
@@ -15,18 +16,23 @@ export interface MarketData {
   }[]
 }
 
-export const generateMarketData = (timeSinceExperimentStartedMs: number, historicalWindowSize: number): MarketData => {
+export const generateMarketData = (
+  timeSinceExperimentStartedMs: number,
+  historicalWindowSize: number,
+  changingProps: ExampleControlsValues['changingProps'],
+  existingData: MarketData | undefined,
+): MarketData => {
   return {
-    bid: new Decimal(Math.random() * 200).toDecimalPlaces(2).toNumber(),
-    ask: new Decimal(Math.random() * 200).toDecimalPlaces(2).toNumber(),
-    lastSale: new Decimal(Math.random() * 200).toDecimalPlaces(2).toNumber(),
-    bidSize: new Decimal(Math.random() * 50).toDecimalPlaces(2).toNumber(),
-    askSize: new Decimal(Math.random() * 50).toDecimalPlaces(2).toNumber(),
-    volume: 40_000_000 + timeSinceExperimentStartedMs,
-    marketCap: 10_000_000_000 + timeSinceExperimentStartedMs,
-    historicalPerformance: [...Array(historicalWindowSize)].map((_, idx) => ({
+    bid: changingProps.bid || !existingData ? new Decimal(Math.random() * 200).toDecimalPlaces(2).toNumber() : existingData.bid,
+    ask: changingProps.ask || !existingData ? new Decimal(Math.random() * 200).toDecimalPlaces(2).toNumber(): existingData.ask,
+    lastSale: changingProps.lastSale || !existingData ? new Decimal(Math.random() * 200).toDecimalPlaces(2).toNumber() : existingData.lastSale,
+    bidSize: changingProps.bidSize || !existingData ? new Decimal(Math.random() * 50).toDecimalPlaces(2).toNumber() : existingData.bidSize,
+    askSize: changingProps.askSize || !existingData ? new Decimal(Math.random() * 50).toDecimalPlaces(2).toNumber() : existingData.askSize,
+    volume: changingProps.volume || !existingData ? 40_000_000 + timeSinceExperimentStartedMs : existingData.volume,
+    marketCap: changingProps.marketCap || !existingData ? 10_000_000_000 + timeSinceExperimentStartedMs : existingData.marketCap,
+    historicalPerformance: changingProps.historicalPerformance || !existingData ? [...Array(historicalWindowSize)].map((_, idx) => ({
       date: subDays(new Date(), idx),
       performance: Math.random() * (Math.random() > 0.5 ? -1 : 1),
-    }))
+    })) : existingData?.historicalPerformance
   }
 } 

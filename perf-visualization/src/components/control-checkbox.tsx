@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { SMALL_SCREEN_BREAKPOINT } from "../breakpoints";
+import { ExampleControlsValues } from "../examples/market-metadata-experiment/example.context";
 
 const InputBox = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ interface ControlInputProps {
     text: string;
     selected: boolean;
   }[]
-  onSelect: (inputId: string) => void;
+  onSelect: (inputId: keyof ExampleControlsValues['changingProps']) => void;
 }
 
 const CheckboxOption = ({ selected, onSelect, id, text }: { selected: boolean, onSelect: () => void, id: string, text: string }) => (
@@ -28,20 +29,27 @@ const CheckboxOption = ({ selected, onSelect, id, text }: { selected: boolean, o
   </div>
 )
 
+const PaddedOptions = styled.div`
+  padding: 8px 16px 8px 16px;
+`
+
 export const ControlCheckboxes = ({ inputName, options, onSelect }: ControlInputProps) => {
 
 
   return (
     <InputBox>
       <InputText>{inputName}</InputText>
-      {options.map((option) => (
-        <CheckboxOption
-          selected={option.selected}
-          onSelect={() => onSelect(option.id)}
-          id={option.id}
-          text={option.text}
-        />
-      ))}
+      <PaddedOptions>
+        {options.map((option) => (
+          <CheckboxOption
+            selected={option.selected}
+            onSelect={() => onSelect(option.id as keyof ExampleControlsValues['changingProps'])}
+            id={option.id}
+            text={option.text}
+          />
+        ))}
+      </PaddedOptions>
+
     </InputBox>
   )
 }

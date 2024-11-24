@@ -1,7 +1,7 @@
 import { createContext, useCallback, useState } from "react";
 import { experimentMetrics } from "../../metrics/tracking";
 
-interface ExampleControlsValues {
+export interface ExampleControlsValues {
   frequency: number;
   setFrequency: (newFrequencyMs: number) => void,
   historicalDays: number;
@@ -13,7 +13,8 @@ interface ExampleControlsValues {
     askSize: boolean,
     lastSale: boolean,
     marketCap: boolean,
-    volume: boolean
+    volume: boolean,
+    historicalPerformance: boolean,
   },
   updateChangingProps: (prop: string, newValue: boolean) => void,
   restartExperiment: () => void;
@@ -33,6 +34,7 @@ const ExampleContextDefaults: ExampleControlsValues = {
     lastSale: true,
     marketCap: true,
     volume: true,
+    historicalPerformance: true,
   },
   updateChangingProps: () => {},
   restartExperiment: () => {},

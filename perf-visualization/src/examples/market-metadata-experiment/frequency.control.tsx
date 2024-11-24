@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ControlInput } from "../../components/control-input";
 import { ExampleContext } from "./example.context";
 
-const MIN_FREQUENCY_MS = 50;
+const MIN_FREQUENCY_MS = 5;
 const MAX_FREQUENCY_MS = 2000;
 
 export const RerenderFequencyControl = () => {

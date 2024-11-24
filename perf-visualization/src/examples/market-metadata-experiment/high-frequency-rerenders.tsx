@@ -10,15 +10,21 @@ import { experimentMetrics, MARKET_DATA_EXPERIMENT_NO_MEMO, MARKET_DATA_EXPERIME
 import { ExampleContext, ExampleContextProvider } from "./example.context";
 import { RerenderFequencyControl } from "./frequency.control";
 import { HistoricalPerformanceDaysControl } from "./historical-window.control";
+import { ChangingPropsControl } from "./changing-props.control";
 
 const HighFrequencyRerenderContent = () => {
 
-  const { frequency, historicalDays, restartExperiment } = useContext(ExampleContext);
-  const [marketData, setMarketData ] = useState(generateMarketData(0, historicalDays));
-  useExperimentClock(frequency, () => setMarketData(generateMarketData(
-    new Date().getTime() -  experimentMetrics.highFrequencyExperiment.trialStartTime,
-    historicalDays
-  )));
+  const { frequency, historicalDays, changingProps, restartExperiment } = useContext(ExampleContext);
+  const [marketData, setMarketData ] = useState(generateMarketData(0, historicalDays, changingProps, undefined));
+  const onExperimentClock = useCallback(() => {
+    setMarketData((existingMarketData) => generateMarketData(
+      new Date().getTime() -  experimentMetrics.highFrequencyExperiment.trialStartTime,
+      historicalDays,
+      changingProps,
+      existingMarketData,
+    ))
+  }, [historicalDays, changingProps, setMarketData]);
+  useExperimentClock(frequency, onExperimentClock);
 
 
   const leadingTrial = experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent < experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent
@@ -30,6 +36,7 @@ const HighFrequencyRerenderContent = () => {
         <ControlsBox onReRunEvent={restartExperiment}>
           <RerenderFequencyControl />
           <HistoricalPerformanceDaysControl />
+          <ChangingPropsControl />
         </ControlsBox>
         <ExperimentBox>
           <TrialBox
