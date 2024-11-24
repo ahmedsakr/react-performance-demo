@@ -8,6 +8,7 @@ interface TrialBoxProps {
   timeSpent: number;
   renderCount: number;
   currentlyLeading: boolean;
+  leadPercent: Decimal;
   children: React.ReactNode;
 }
 
@@ -39,6 +40,7 @@ const TrialHeader = styled.div`
 export const TrialBox = ({
   trialType,
   currentlyLeading,
+  leadPercent,
   timeSpent,
   children,
   renderCount,
@@ -50,7 +52,9 @@ export const TrialBox = ({
           Trial:{" "}
           <Bolded>{trialType === "no-memo" ? "No Memos" : "With Memos"}</Bolded>
         </text>
-        {currentlyLeading && <text>🥇Winning</text>}
+        {currentlyLeading && (
+          <text>🥇Winning by {leadPercent.toDecimalPlaces(2).toString()}%</text>
+        )}
       </TrialHeader>
       <Bolded>
         Time spent: {new Decimal(timeSpent).toDecimalPlaces(2).toNumber()} ms,

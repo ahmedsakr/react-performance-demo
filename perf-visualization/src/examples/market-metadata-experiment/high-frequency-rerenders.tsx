@@ -19,6 +19,7 @@ import { ExampleContext, ExampleContextProvider } from "./example.context";
 import { RerenderFequencyControl } from "./frequency.control";
 import { HistoricalPerformanceDaysControl } from "./historical-window.control";
 import { ChangingPropsControl } from "./changing-props.control";
+import Decimal from "decimal.js";
 
 const HighFrequencyRerenderContent = () => {
   const { frequency, historicalDays, changingProps, restartExperiment } =
@@ -44,6 +45,24 @@ const HighFrequencyRerenderContent = () => {
     experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent
       ? "no-memos"
       : "with-memos";
+  const leadPercent =
+    leadingTrial === "no-memos"
+      ? new Decimal(
+          experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent,
+        )
+          .dividedBy(
+            experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent ||
+              1,
+          )
+          .times(100)
+      : new Decimal(
+          experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent,
+        )
+          .dividedBy(
+            experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent ||
+              1,
+          )
+          .times(100);
   return (
     <InteractiveExample>
       <h1>Example: High-Frequency Prop Changes</h1>
@@ -60,6 +79,7 @@ const HighFrequencyRerenderContent = () => {
       >
         <TrialBox
           trialType="no-memo"
+          leadPercent={leadPercent}
           currentlyLeading={leadingTrial === "no-memos"}
           timeSpent={
             experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent
@@ -78,6 +98,7 @@ const HighFrequencyRerenderContent = () => {
         <TrialBox
           trialType="with-memo"
           currentlyLeading={leadingTrial === "with-memos"}
+          leadPercent={leadPercent}
           timeSpent={
             experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent
           }

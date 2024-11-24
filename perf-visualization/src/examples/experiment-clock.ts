@@ -5,7 +5,7 @@ export const useExperimentClock = (
   updateExperimentState: () => void,
 ) => {
   useEffect(() => {
-    const adjustedFrequency = Math.max(frequency, 50);
+    const adjustedFrequency = Math.max(frequency, 5);
     const intervalId = setInterval(updateExperimentState, adjustedFrequency);
 
     return () => {
