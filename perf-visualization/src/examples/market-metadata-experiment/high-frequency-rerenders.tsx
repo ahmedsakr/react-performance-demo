@@ -50,20 +50,18 @@ const HighFrequencyRerenderContent = () => {
       ? new Decimal(
           experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent,
         )
-          .dividedBy(
-            experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent ||
-              1,
+          .minus(
+            experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent 
           )
-          .minus(1)
+          .dividedBy(experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent || 1)
           .times(100)
       : new Decimal(
           experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent,
         )
-          .dividedBy(
-            experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent ||
-              1,
+          .minus(
+            experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent
           )
-          .minus(1)
+          .dividedBy(experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent || 1)
           .times(100);
   return (
     <InteractiveExample>
