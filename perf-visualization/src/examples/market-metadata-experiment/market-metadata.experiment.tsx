@@ -28,6 +28,8 @@ export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData}) 
   const formattedLastSale = formatDollarValue(marketData.lastSale);
   const formattedMarketCap = formatDollarValue(marketData.marketCap);
 
+  const totalPerformance = marketData.historicalPerformance.reduce((accum, curr) => accum + curr.performance, 0);
+
   return (
     <>
       <MetadataRow
@@ -58,6 +60,10 @@ export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData}) 
         rowName="Market Cap"
         value={formattedMarketCap}
       />
+      <MetadataRow
+        rowName={`Performance (${marketData.historicalPerformance.length} days)`}
+        value={`${totalPerformance}%`}
+      />
     </>
   )
 
@@ -69,6 +75,10 @@ export const MarketMetdataWithMemos = React.memo(({ marketData }: { marketData: 
   const formattedAsk = useMemo(() => formatDollarValue(marketData.ask), [marketData.ask]);
   const formattedLastSale = useMemo(() => formatDollarValue(marketData.lastSale), [marketData.lastSale]);
   const formattedMarketCap =  useMemo(() => formatDollarValue(marketData.marketCap), [marketData.marketCap]);
+  const totalPerformance = useMemo(
+    () => marketData.historicalPerformance.reduce((accum, curr) => accum + curr.performance, 0),
+    [marketData.historicalPerformance]
+  );
 
   return (
     <>
@@ -99,6 +109,10 @@ export const MarketMetdataWithMemos = React.memo(({ marketData }: { marketData: 
       <MetadataRow
         rowName="Market Cap"
         value={formattedMarketCap}
+      />
+      <MetadataRow
+        rowName={`Performance (${marketData.historicalPerformance.length} days)`}
+        value={`${totalPerformance}%`}
       />
     </>
   )
