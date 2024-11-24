@@ -54,6 +54,7 @@ const HighFrequencyRerenderContent = () => {
             experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent ||
               1,
           )
+          .minus(1)
           .times(100)
       : new Decimal(
           experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent,
@@ -62,6 +63,7 @@ const HighFrequencyRerenderContent = () => {
             experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent ||
               1,
           )
+          .minus(1)
           .times(100);
   return (
     <InteractiveExample>
