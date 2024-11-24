@@ -2,6 +2,11 @@ import Decimal from "decimal.js";
 import { subDays } from 'date-fns'
 import { ExampleControlsValues } from "./example.context";
 
+export interface HistoricalPerformancePoint {
+  date: number;
+  performance: number;
+}
+
 export interface MarketData {
   bid: number;
   ask: number;
@@ -10,10 +15,7 @@ export interface MarketData {
   volume: number;
   marketCap: number;
   lastSale: number;
-  historicalPerformance: {
-    date: Date;
-    performance: number; 
-  }[]
+  historicalPerformance: HistoricalPerformancePoint[]
 }
 
 export const generateMarketData = (
@@ -31,7 +33,7 @@ export const generateMarketData = (
     volume: changingProps.volume || !existingData ? 40_000_000 + timeSinceExperimentStartedMs : existingData.volume,
     marketCap: changingProps.marketCap || !existingData ? 10_000_000_000 + timeSinceExperimentStartedMs : existingData.marketCap,
     historicalPerformance: changingProps.historicalPerformance || !existingData ? [...Array(historicalWindowSize)].map((_, idx) => ({
-      date: subDays(new Date(), idx),
+      date: subDays(new Date(), idx).getTime(),
       performance: Math.random() * (Math.random() > 0.5 ? -1 : 1),
     })) : existingData?.historicalPerformance
   }

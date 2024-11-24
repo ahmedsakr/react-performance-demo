@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import Intl from 'currency-formatter';
-import { MarketData } from "./data-generator";
+import { HistoricalPerformancePoint, MarketData } from "./data-generator";
 import React, { useContext, useEffect, useMemo, useRef } from "react";
 import Decimal from "decimal.js";
+import { line } from "d3-shape";
+import { scaleLinear } from "d3-scale";
 
 const MetadataRowContainer = styled.div`
   display: flex;
@@ -30,6 +32,16 @@ export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData}) 
   const formattedMarketCap = formatDollarValue(marketData.marketCap);
 
   const totalPerformance = marketData.historicalPerformance.reduce((accum, curr) => accum + curr.performance, 0);
+
+
+  const historicalSvgScales = {
+    x: scaleLinear([0, marketData.historicalPerformance.length], [0, 100]),
+    y: scaleLinear([-1, 1], [0, 50]),
+  };
+  const historicalSvgPathGen = line<HistoricalPerformancePoint>()
+    .x((_, idx) => historicalSvgScales.x(idx))
+    .y((d) => historicalSvgScales.y(d.performance));
+  const svgPath =  historicalSvgPathGen(marketData.historicalPerformance);
 
   return (
     <>
@@ -65,6 +77,9 @@ export const MarketMetdataNoMemos = ({ marketData }: { marketData: MarketData}) 
         rowName={`Performance (${marketData.historicalPerformance.length} days)`}
         value={`${new Decimal(totalPerformance).toDecimalPlaces(2).toNumber()}%`}
       />
+      <svg width={100} height={50}>
+        <path d={svgPath || ''} stroke="green" strokeWidth={2} />
+      </svg>
     </>
   )
 
@@ -84,6 +99,23 @@ export const MarketMetdataWithMemos = React.memo(({ marketData }: { marketData: 
     },
     [marketData.historicalPerformance]
   );
+
+
+  const historicalSvgScales = useMemo(() => ({
+    x: scaleLinear([0, marketData.historicalPerformance.length], [0, 100]),
+    y: scaleLinear([-1, 1], [0, 50]),
+  }), [ marketData.historicalPerformance])
+  const historicalSvgPathGen = useMemo(() => line<HistoricalPerformancePoint>().x((_, idx) => historicalSvgScales.x(idx)).y((d) => historicalSvgScales.y(d.performance)), [historicalSvgScales])
+  const svgPath = useMemo(() => historicalSvgPathGen(marketData.historicalPerformance), [historicalSvgPathGen, marketData.historicalPerformance]);
+
+  const HistoricalChart = useMemo(() => {
+    return (
+      <svg width={100} height={50}>
+        <path d={svgPath || ''} stroke="green" strokeWidth={2} />
+      </svg>
+    )
+  }, [svgPath])
+
 
   return (
     <>
@@ -119,6 +151,7 @@ export const MarketMetdataWithMemos = React.memo(({ marketData }: { marketData: 
         rowName={`Performance (${marketData.historicalPerformance.length} days)`}
         value={`${totalPerformance}%`}
       />
+      {HistoricalChart}
     </>
   )
 

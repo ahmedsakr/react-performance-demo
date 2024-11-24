@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ControlInput } from "../../components/control-input";
 import { ExampleContext } from "./example.context";
 
-const MIN_HISTORICAL_DAYS = 1;
+const MIN_HISTORICAL_DAYS = 2;
 const MAX_HISTORICAL_DAYS = 365;
 
 export const HistoricalPerformanceDaysControl = () => {

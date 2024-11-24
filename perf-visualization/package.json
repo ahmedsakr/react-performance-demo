@@ -11,6 +11,8 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "currency-formatter": "^1.5.9",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
     "decimal.js": "^10.4.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -44,6 +46,8 @@
     ]
   },
   "devDependencies": {
-    "@types/currency-formatter": "^1.5.4"
+    "@types/currency-formatter": "^1.5.4",
+    "@types/d3-scale": "^4.0.8",
+    "@types/d3-shape": "^3.1.6"
   }
 }
