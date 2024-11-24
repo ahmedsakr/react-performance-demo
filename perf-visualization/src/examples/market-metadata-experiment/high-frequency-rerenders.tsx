@@ -48,18 +48,18 @@ const HighFrequencyRerenderContent = () => {
   const leadPercent =
     leadingTrial === "no-memos"
       ? new Decimal(
-          experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent,
-        )
-          .dividedBy(
-            experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent ||
-              1,
-          )
-          .times(100)
-      : new Decimal(
           experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent,
         )
           .dividedBy(
             experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent ||
+              1,
+          )
+          .times(100)
+      : new Decimal(
+          experimentMetrics.highFrequencyExperiment.noMemosTrialTimeSpent,
+        )
+          .dividedBy(
+            experimentMetrics.highFrequencyExperiment.withMemosTrialTimeSpent ||
               1,
           )
           .times(100);
