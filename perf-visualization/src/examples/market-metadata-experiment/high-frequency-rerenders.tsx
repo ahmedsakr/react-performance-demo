@@ -4,10 +4,7 @@ import { InteractiveExample } from "../../components/example-box";
 import { ExperimentBox } from "../../components/experiment-box";
 import { TrialBox } from "../../components/trial-box";
 import { useExperimentClock } from "../experiment-clock";
-import {
-  MarketMetdataNoMemos,
-  MarketMetdataWithMemos,
-} from "./market-metadata.experiment";
+import { MarketMetdataWithMemos } from "./market-metadata.with-memos.experiment";
 import { generateMarketData } from "./data-generator";
 import {
   experimentMetrics,
@@ -20,6 +17,7 @@ import { RerenderFequencyControl } from "./frequency.control";
 import { HistoricalPerformanceDaysControl } from "./historical-window.control";
 import { ChangingPropsControl } from "./changing-props.control";
 import Decimal from "decimal.js";
+import { MarketMetdataNoMemos } from "./market-metadata.no-memos.experiment";
 
 const HighFrequencyRerenderContent = () => {
   const { frequency, historicalDays, changingProps, restartExperiment } =

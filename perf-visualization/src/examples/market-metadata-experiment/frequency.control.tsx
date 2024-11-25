@@ -11,7 +11,7 @@ export const RerenderFequencyControl = () => {
 
   return (
     <ControlInput
-      inputName={`Frequency [${MIN_FREQUENCY_MS}ms, ${MAX_FREQUENCY_MS}ms]`}
+      inputName={`Render Clock [${MIN_FREQUENCY_MS}ms, ${MAX_FREQUENCY_MS}ms]`}
       inputValue={frequency.toString()}
       onInputChange={(value) => {
         if (value === "") {

@@ -103,9 +103,7 @@ export const ExperimentBox = ({
       <text>
         Description: The table below is market metadata of a security.
       </text>
-      <text>
-        All values are subject to change when a new market quote is available
-      </text>
+      <text>Each re-render can change values based on your settings.</text>
       <PaddedExperiment>{children}</PaddedExperiment>
     </RootBox>
   );
