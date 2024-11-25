@@ -19,6 +19,7 @@ export const HistoricalPerformanceDaysControl = () => {
           restartExperiment();
           return;
         }
+        if (value.length > 4) return;
         if (Number.isNaN(value)) return;
 
         setHistoricalDays(parseInt(value));

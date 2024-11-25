@@ -19,6 +19,7 @@ export const RerenderFequencyControl = () => {
           restartExperiment();
           return;
         }
+        if (value.length > 4) return;
         if (Number.isNaN(value)) return;
 
         setFrequency(parseInt(value));
