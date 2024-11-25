@@ -5,6 +5,7 @@ import Decimal from "decimal.js";
 
 interface TrialBoxProps {
   trialType: "no-memo" | "with-memo";
+  trialUrl: string;
   timeSpent: number;
   renderCount: number;
   currentlyLeading: boolean;
@@ -39,6 +40,7 @@ const TrialHeader = styled.div`
 
 export const TrialBox = ({
   trialType,
+  trialUrl,
   currentlyLeading,
   leadPercent,
   timeSpent,
@@ -50,7 +52,11 @@ export const TrialBox = ({
       <TrialHeader>
         <text>
           Trial:{" "}
-          <Bolded>{trialType === "no-memo" ? "No Memos" : "With Memos"}</Bolded>
+          <a href={trialUrl} target="_blank">
+            <Bolded>
+              {trialType === "no-memo" ? "No Memos" : "With Memos"}
+            </Bolded>
+          </a>
         </text>
         {currentlyLeading && (
           <text>🥇Winning by {leadPercent.toDecimalPlaces(2).toString()}%</text>

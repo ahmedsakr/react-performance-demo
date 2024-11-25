@@ -102,6 +102,7 @@ const HighFrequencyRerenderContent = () => {
       >
         <TrialBox
           trialType="no-memo"
+          trialUrl="https://github.com/ahmedsakr/react-performance-demo/blob/main/perf-visualization/src/examples/market-metadata-experiment/market-metadata.no-memos.experiment.tsx"
           leadPercent={leadPercent}
           currentlyLeading={leadingTrial === "no-memos"}
           timeSpent={
@@ -120,6 +121,7 @@ const HighFrequencyRerenderContent = () => {
         </TrialBox>
         <TrialBox
           trialType="with-memo"
+          trialUrl="https://github.com/ahmedsakr/react-performance-demo/blob/main/perf-visualization/src/examples/market-metadata-experiment/market-metadata.with-memos.experiment.tsx"
           currentlyLeading={leadingTrial === "with-memos"}
           leadPercent={leadPercent}
           timeSpent={
